@@ -49,24 +49,29 @@ void PLAYER::initializePosition(double x, double y)
 }
 // ###########################################
 // ###########################################
+
 void PLAYER::moveRight()
-{
-    m_player_x_pos += 10;
+{    
+    if(m_player_x_pos + speed_xy < window_x - m_player_width) {set_player_x_pos(m_player_x_pos + speed_xy);}
+    else{return;}
 }
 
 void PLAYER::moveLeft()
 {
-    m_player_x_pos -= 10;
+    if(m_player_x_pos - speed_xy > 0){set_player_x_pos(m_player_x_pos - speed_xy);}
+    else{return;}
 }
 
 void PLAYER::moveDown()
 {
-    m_player_y_pos += 10;
+    if(m_player_y_pos + speed_xy < window_y - m_player_width) {set_player_y_pos(m_player_y_pos + speed_xy);}
+    else{return;}
 }
 
 void PLAYER::moveUp()
 {
-    m_player_y_pos -= 10;
+    if(m_player_y_pos - speed_xy > 0 ) {set_player_y_pos(m_player_y_pos - speed_xy);}
+    else{return;}
 }
 // ###########################################
 // ###########################################

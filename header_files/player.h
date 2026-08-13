@@ -48,13 +48,14 @@ private:
     double window_to_object_ratio = 10.0;
 
     uint32_t window_x = 800;
+    uint32_t speed_xy = 20;
     uint32_t window_y = 800;
-
-    double m_player_x_pos = 0;
-    double m_player_y_pos = 0;
-
+    
     uint32_t m_player_width = 80;
     uint32_t m_player_height = 80;
+
+    double m_player_x_pos =(( window_x ) / 2) - (m_player_width/2);
+    double m_player_y_pos = ((window_y)-(window_y)/3) + (m_player_width/2) ;
 
     uint32_t window_width() const;
     uint32_t window_height() const;

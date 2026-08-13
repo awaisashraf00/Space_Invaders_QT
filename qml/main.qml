@@ -1,42 +1,63 @@
-import QtQuick.Controls
 import QtQuick
+import QtQuick.Controls
 import PLayerControls 1.0
-import QtQuick.Layouts
-
 
 ApplicationWindow {
     width: 800
     height: 800
     visible: true
-    title : qsTr("Space invaders")
+    title: qsTr("Space invaders")
 
     PLAYER {
         id: battleship
     }
 
-    Rectangle {
-        id: playerRectangle
+    Item {
+        id: gameArea
 
-        width: battleship.player_width
-        height: battleship.player_height
-        
-        battleship.initializePosition();
+        anchors.fill: parent
+        focus: true
 
-    }
-    
-    Keys.onRightPressed: {
-        battleship.moveRight()
-    }
+        Component.onCompleted: {
+            forceActiveFocus()
+        }
 
-    Keys.onLeftPressed: {
-        battleship.moveLeft()
-    }
+        Rectangle {
+            id: playerRectangle
 
-    Keys.onUpPressed: {
-        battleship.moveUp()
-    }
+            width: battleship.player_width
+            height: battleship.player_height
 
-    Keys.onDownPressed: {
-        battleship.moveDown()
+            x: battleship.player_x_pos
+            y: battleship.player_y_pos
+        }
+
+        Keys.onRightPressed: function(event) {
+            console.log("RIGHT")
+            console.log(battleship.player_x_pos)
+            battleship.moveRight()
+            event.accepted = true
+        }
+
+        Keys.onLeftPressed: function(event) {
+            console.log(battleship.player_x_pos)
+            console.log("LEFT")
+            battleship.moveLeft()
+            event.accepted = true
+        }
+
+        Keys.onUpPressed: function(event) {
+            console.log(battleship.player_y_pos)
+            console.log("UP")
+            battleship.moveUp()
+            event.accepted = true
+        }
+
+        Keys.onDownPressed: function(event) {
+            console.log(battleship.player_y_pos)
+            console.log("DOWN")
+            battleship.moveDown()
+            event.accepted = true
+        }
     }
 }
