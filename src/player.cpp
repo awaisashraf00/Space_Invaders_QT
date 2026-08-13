@@ -46,6 +46,7 @@ void PLAYER::initializePosition(double x, double y)
 {
     set_player_x_pos(x);
     set_player_y_pos(y);
+
 }
 // ###########################################
 // ###########################################
