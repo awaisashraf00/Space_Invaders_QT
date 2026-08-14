@@ -3,6 +3,7 @@
 PLAYER::PLAYER(QObject *parent)
     : QObject(parent)
 {
+    QObject::connect(&timing,&QTimer::timeout,this,&PLAYER::thrust);
 }
 // ###########################################
 // ###########################################
@@ -60,12 +61,6 @@ void PLAYER::moveRight()
 void PLAYER::moveLeft()
 {
     if(m_player_x_pos - speed_xy > 0){set_player_x_pos(m_player_x_pos - speed_xy);}
-    else{return;}
-}
-
-void PLAYER::moveDown()
-{
-    if(m_player_y_pos + speed_xy < window_y - m_player_width) {set_player_y_pos(m_player_y_pos + speed_xy);}
     else{return;}
 }
 

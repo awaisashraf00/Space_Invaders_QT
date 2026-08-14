@@ -24,7 +24,6 @@ ApplicationWindow {
 
         Rectangle {
             id: playerRectangle
-
             width: battleship.player_width
             height: battleship.player_height
 
@@ -33,30 +32,23 @@ ApplicationWindow {
         }
 
         Keys.onRightPressed: function(event) {
-            console.log("RIGHT")
-            console.log(battleship.player_x_pos)
+            // console.log("RIGHT")
+            // console.log(battleship.player_x_pos)
             battleship.moveRight()
             event.accepted = true
         }
 
         Keys.onLeftPressed: function(event) {
-            console.log(battleship.player_x_pos)
-            console.log("LEFT")
+            // console.log(battleship.player_x_pos)
+            // console.log("LEFT")
             battleship.moveLeft()
             event.accepted = true
         }
 
         Keys.onUpPressed: function(event) {
-            console.log(battleship.player_y_pos)
-            console.log("UP")
+            // console.log(battleship.player_y_pos)
+            // console.log("UP")
             battleship.moveUp()
-            event.accepted = true
-        }
-
-        Keys.onDownPressed: function(event) {
-            console.log(battleship.player_y_pos)
-            console.log("DOWN")
-            battleship.moveDown()
             event.accepted = true
         }
     }
