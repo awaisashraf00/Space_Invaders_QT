@@ -1,77 +1,82 @@
 #pragma once
 
 #include <QObject>
+#include <QDebug>
 #include <QTimer>
 #include <cstdint>
 
 class PLAYER : public QObject
 {
     Q_OBJECT
-
-    Q_PROPERTY(uint32_t window_width READ window_width)
-    Q_PROPERTY(uint32_t window_height READ window_height)
-
-    Q_PROPERTY(uint32_t player_width READ player_width)
-    Q_PROPERTY(uint32_t player_height READ player_height)
-
+    
+    Q_PROPERTY(uint16_t window_width READ window_width)
+    Q_PROPERTY(uint16_t window_height READ window_height)
+    
+    Q_PROPERTY(uint16_t player_width READ player_width)
+    Q_PROPERTY(uint16_t player_height READ player_height)
+    
     Q_PROPERTY(double player_x_pos
-               READ player_x_pos
-               WRITE set_player_x_pos
-               NOTIFY player_x_changed)
-
+        READ player_x_pos
+        WRITE set_player_x_pos
+        NOTIFY player_x_changed)
+        
     Q_PROPERTY(double player_y_pos
-               READ player_y_pos
-               WRITE set_player_y_pos
-               NOTIFY player_y_changed)
+        READ player_y_pos
+        WRITE set_player_y_pos
+        NOTIFY player_y_changed)
 
 public:
     explicit PLAYER(QObject *parent = nullptr);
-
+    
     double player_x_pos() const;
     double player_y_pos() const;
-
+    
     void set_player_x_pos(double new_x);
     void set_player_y_pos(double new_y);
-
-    Q_INVOKABLE void initializePosition(double x, double y);
     
+    uint16_t window_width() const;
+    uint16_t window_height() const;
+    
+    uint16_t player_width() const;
+    uint16_t player_height() const;
+    
+    Q_INVOKABLE void initializePosition(double x, double y);
     Q_INVOKABLE void moveRight();
     Q_INVOKABLE void moveLeft();
-    Q_INVOKABLE void moveUp();
-
-
-private slots:
-    void thrust(){
-
-    }
-
-signals:
-    void player_x_changed();
-    void player_y_changed();
+    Q_INVOKABLE void applyThrust();
 
 private:
+    
+    
+// ##############################
+// ##############################
+
     double window_to_object_ratio = 10.0;
 
 // ##############################
 // ##############################
 
+    QTimer timing;
     double fps {16.67};
     double gravity {0.5};
-    uint32_t speed_xy {20};
+    double m_velocity_y {0.0};
+    uint16_t speed_xy {20};
+    
+    double m_velocity_right_x {0.0};
+    double m_velocity_left_x {0.0};
 
-    QTimer timing;
-
-// ##############################
-// ##############################
-
-    uint32_t window_x = 800;
-    uint32_t window_y = 800;
 
 // ##############################
 // ##############################
 
-    uint32_t m_player_width = 80;
-    uint32_t m_player_height = 80;
+    uint16_t window_x = 800;
+    uint16_t window_y = 800;
+
+// ##############################
+// ##############################
+
+    uint16_t m_player_width = 80;
+    uint16_t m_player_height = 80;
 // ##############################
 // ##############################
 
@@ -80,11 +85,15 @@ private:
 
 // ##############################
 // ##############################
-    uint32_t window_width() const;
-    uint32_t window_height() const;
-// ##############################
-// ##############################
 
-    uint32_t player_width() const;
-    uint32_t player_height() const;
+
+private slots:
+    void Resistance();
+
+signals:
+    void player_x_changed();
+    void x_left();
+    void x_right();
+    void player_y_changed();
+
 };

@@ -46,9 +46,7 @@ ApplicationWindow {
         }
 
         Keys.onUpPressed: function(event) {
-            // console.log(battleship.player_y_pos)
-            // console.log("UP")
-            battleship.moveUp()
+            battleship.applyThrust()
             event.accepted = true
         }
     }

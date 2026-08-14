@@ -3,7 +3,9 @@
 PLAYER::PLAYER(QObject *parent)
     : QObject(parent)
 {
-    QObject::connect(&timing,&QTimer::timeout,this,&PLAYER::thrust);
+    QObject::connect(&timing,&QTimer::timeout,this,&PLAYER::Resistance);
+    // QObject::connect(this,&PLAYER::player_x_changed,this,&PLAYER::moveRight);
+    timing.start(fps);
 }
 // ###########################################
 // ###########################################
@@ -23,10 +25,15 @@ double PLAYER::player_y_pos() const
 
 void PLAYER::set_player_x_pos(double new_x)
 {
-    if (m_player_x_pos == new_x)
+    if(m_player_x_pos + m_velocity_right_x + m_player_width < window_x && m_player_x_pos - (-m_velocity_left_x) > 0){
+        if (m_player_x_pos == new_x)
+            return;
+    
+        m_player_x_pos = new_x;
+    }else{
+        qDebug()<<"you have reached the limit possible";
         return;
-
-    m_player_x_pos = new_x;
+    }
 
     emit player_x_changed();
 }
@@ -54,40 +61,63 @@ void PLAYER::initializePosition(double x, double y)
 
 void PLAYER::moveRight()
 {    
-    if(m_player_x_pos + speed_xy < window_x - m_player_width) {set_player_x_pos(m_player_x_pos + speed_xy);}
-    else{return;}
+    m_velocity_right_x = 10;
 }
 
 void PLAYER::moveLeft()
 {
-    if(m_player_x_pos - speed_xy > 0){set_player_x_pos(m_player_x_pos - speed_xy);}
-    else{return;}
+    m_velocity_left_x = -10;
 }
 
-void PLAYER::moveUp()
+void PLAYER::applyThrust()
 {
-    if(m_player_y_pos - speed_xy > 0 ) {set_player_y_pos(m_player_y_pos - speed_xy);}
-    else{return;}
+    m_velocity_y = -20.0;
 }
+
+void PLAYER::Resistance()
+{
+    m_velocity_y += gravity;
+
+    set_player_y_pos(m_player_y_pos + m_velocity_y);
+
+    if (m_player_y_pos + m_player_height >= window_y)
+    {
+        set_player_y_pos(window_y - m_player_height);
+        m_velocity_y = 0;
+    }
+    if(m_velocity_right_x > 0){
+        m_velocity_right_x -= gravity;
+        qDebug()<<m_velocity_right_x;
+
+        set_player_x_pos(m_player_x_pos + m_velocity_right_x);
+        
+    }else if(m_velocity_left_x < 0){
+        m_velocity_left_x += gravity;
+        qDebug()<<m_velocity_left_x;
+        set_player_x_pos( m_player_x_pos - -(m_velocity_left_x));
+    }
+}
+
+
 // ###########################################
 // ###########################################
 
-uint32_t PLAYER::window_width() const
+uint16_t PLAYER::window_width() const
 {
     return window_x;
 }
 
-uint32_t PLAYER::window_height() const
+uint16_t PLAYER::window_height() const
 {
     return window_y;
 }
 
-uint32_t PLAYER::player_width() const
+uint16_t PLAYER::player_width() const
 {
     return m_player_width;
 }
 
-uint32_t PLAYER::player_height() const
+uint16_t PLAYER::player_height() const
 {
     return m_player_height;
 }
