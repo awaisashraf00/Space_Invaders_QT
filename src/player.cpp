@@ -25,26 +25,32 @@ double PLAYER::player_y_pos() const
 
 void PLAYER::set_player_x_pos(double new_x)
 {
-    if(m_player_x_pos + m_velocity_right_x + m_player_width < window_x && m_player_x_pos - (-m_velocity_left_x) > 0){
-        if (m_player_x_pos == new_x)
-            return;
-    
-        m_player_x_pos = new_x;
-    }else{
-        qDebug()<<"you have reached the limit possible";
+    double max_x = window_x - m_player_width;
+
+    if (new_x < 0){
+        m_velocity_left_x = 0;
+        new_x = 0;
+    }
+    if (new_x > max_x){
+        new_x = max_x;
+        m_velocity_right_x = 0;
+    }
+    if (m_player_x_pos == new_x){
+        qDebug()<<"Sorryyy";
         return;
     }
 
+    m_player_x_pos = new_x;
     emit player_x_changed();
 }
 
 void PLAYER::set_player_y_pos(double new_y)
 {
-    if (m_player_y_pos == new_y)
+
+    if (m_player_y_pos == new_y){
         return;
-
+    }
     m_player_y_pos = new_y;
-
     emit player_y_changed();
 }
 
@@ -61,12 +67,12 @@ void PLAYER::initializePosition(double x, double y)
 
 void PLAYER::moveRight()
 {    
-    m_velocity_right_x = 10;
+    m_velocity_right_x = 20;
 }
 
 void PLAYER::moveLeft()
 {
-    m_velocity_left_x = -10;
+    m_velocity_left_x = -20;
 }
 
 void PLAYER::applyThrust()
@@ -84,17 +90,21 @@ void PLAYER::Resistance()
     {
         set_player_y_pos(window_y - m_player_height);
         m_velocity_y = 0;
+
+    }else if(m_player_y_pos + m_velocity_y <= 0){
+        set_player_y_pos(0);
+        m_velocity_y = 0;
     }
     if(m_velocity_right_x > 0){
         m_velocity_right_x -= gravity;
         qDebug()<<m_velocity_right_x;
-
         set_player_x_pos(m_player_x_pos + m_velocity_right_x);
+
         
     }else if(m_velocity_left_x < 0){
         m_velocity_left_x += gravity;
         qDebug()<<m_velocity_left_x;
-        set_player_x_pos( m_player_x_pos - -(m_velocity_left_x));
+        set_player_x_pos( m_player_x_pos + m_velocity_left_x);
     }
 }
 
