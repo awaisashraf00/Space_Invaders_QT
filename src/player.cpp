@@ -10,19 +10,6 @@ PLAYER::PLAYER(QObject *parent)
 // ###########################################
 // ###########################################
 
-double PLAYER::player_x_pos() const
-{
-    return m_player_x_pos;
-}
-
-double PLAYER::player_y_pos() const
-{
-    return m_player_y_pos;
-}
-
-// ###########################################
-// ###########################################
-
 void PLAYER::set_player_x_pos(double new_x)
 {
     double max_x = window_x - m_player_width;
@@ -36,7 +23,7 @@ void PLAYER::set_player_x_pos(double new_x)
         m_velocity_right_x = 0;
     }
     if (m_player_x_pos == new_x){
-        qDebug()<<"Sorryyy";
+    
         return;
     }
 
@@ -46,12 +33,15 @@ void PLAYER::set_player_x_pos(double new_x)
 
 void PLAYER::set_player_y_pos(double new_y)
 {
-
-    if (m_player_y_pos == new_y){
-        return;
+    if(new_y > window_y/2){
+        if (m_player_y_pos == new_y){
+            return;
+        }
+        m_player_y_pos = new_y;
+        emit player_y_changed();
+    }else{
+        m_velocity_y = 0;
     }
-    m_player_y_pos = new_y;
-    emit player_y_changed();
 }
 
 // ###########################################
@@ -77,7 +67,7 @@ void PLAYER::moveLeft()
 
 void PLAYER::applyThrust()
 {
-    m_velocity_y = -20.0;
+    m_velocity_y = -15.0;
 }
 
 void PLAYER::Resistance()
@@ -97,39 +87,14 @@ void PLAYER::Resistance()
     }
     if(m_velocity_right_x > 0){
         m_velocity_right_x -= gravity;
-        qDebug()<<m_velocity_right_x;
+    
         set_player_x_pos(m_player_x_pos + m_velocity_right_x);
 
         
     }else if(m_velocity_left_x < 0){
         m_velocity_left_x += gravity;
-        qDebug()<<m_velocity_left_x;
+    
         set_player_x_pos( m_player_x_pos + m_velocity_left_x);
     }
 }
 
-
-// ###########################################
-// ###########################################
-
-uint16_t PLAYER::window_width() const
-{
-    return window_x;
-}
-
-uint16_t PLAYER::window_height() const
-{
-    return window_y;
-}
-
-uint16_t PLAYER::player_width() const
-{
-    return m_player_width;
-}
-
-uint16_t PLAYER::player_height() const
-{
-    return m_player_height;
-}
-// ###########################################
-// ###########################################

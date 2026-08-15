@@ -22,7 +22,11 @@ qt_standard_project_setup(REQUIRES 6.8)
 add_executable(Qt_Game
     src/main.cpp
     src/player.cpp
+    src/bullets.cpp
+    src/control.cpp
     header_files/player.h
+    header_files/control.h
+    header_files/bullets.h
 )
 
 target_include_directories(Qt_Game PRIVATE
@@ -42,6 +46,7 @@ qt_add_qml_module(Qt_Game
 
     QML_FILES
         qml/Main.qml
+        qml/Bullet.qml
 )
 
 target_link_libraries(Qt_Game PRIVATE

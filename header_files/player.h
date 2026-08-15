@@ -28,17 +28,17 @@ class PLAYER : public QObject
 public:
     explicit PLAYER(QObject *parent = nullptr);
     
-    double player_x_pos() const;
-    double player_y_pos() const;
+    double player_x_pos() const {return m_player_x_pos;};
+    double player_y_pos() const {return m_player_y_pos;};
     
     void set_player_x_pos(double new_x);
     void set_player_y_pos(double new_y);
     
-    uint16_t window_width() const;
-    uint16_t window_height() const;
+    uint16_t window_width() const {return window_x;};
+    uint16_t window_height() const {return window_y;};
     
-    uint16_t player_width() const;
-    uint16_t player_height() const;
+    uint16_t player_width() const {return m_player_width;};
+    uint16_t player_height() const {return m_player_height;};
     
     Q_INVOKABLE void initializePosition(double x, double y);
     Q_INVOKABLE void moveRight();

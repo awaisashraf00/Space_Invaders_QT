@@ -1,9 +1,11 @@
 #include "player.h"
+#include "bullets.h"
+#include <cstdlib>
 #include <QQmlContext>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QTextStream>
-#include <QDebug>
+
 
 int main(int argc, char *argv[])
 {
@@ -18,8 +20,14 @@ int main(int argc, char *argv[])
     // engine.rootContext()->setContextProperty("actionTaker", &player1);
     // if(!Child.isEmpty()) qInfo()<<"Child Found " <<" : ";
     
+    // qmlRegisterType<BULLET>("BulletControls",1,0,"BULLET");
+
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+    
+    BULLET *bullets = (BULLET*)malloc(sizeof(BULLET)); 
+
+    engine.rootContext()->setContextProperty("ammo", &bullets);
     
     qmlRegisterType<PLAYER>("PLayerControls",1,0,"PLAYER");
     engine.loadFromModule("Qt_Game", "Main");

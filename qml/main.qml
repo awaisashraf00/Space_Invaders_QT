@@ -32,15 +32,11 @@ ApplicationWindow {
         }
 
         Keys.onRightPressed: function(event) {
-            // console.log("RIGHT")
-            // console.log(battleship.player_x_pos)
             battleship.moveRight()
             event.accepted = true
         }
 
         Keys.onLeftPressed: function(event) {
-            // console.log(battleship.player_x_pos)
-            // console.log("LEFT")
             battleship.moveLeft()
             event.accepted = true
         }
@@ -49,5 +45,7 @@ ApplicationWindow {
             battleship.applyThrust()
             event.accepted = true
         }
+
+        
     }
 }
