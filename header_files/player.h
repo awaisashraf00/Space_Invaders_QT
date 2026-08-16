@@ -1,8 +1,10 @@
 #pragma once
 
 #include <QObject>
+#include <QKeyEvent>
 #include <QDebug>
 #include <QTimer>
+#include <control.h>
 #include <cstdint>
 
 class PLAYER : public QObject
@@ -46,7 +48,8 @@ public:
     Q_INVOKABLE void applyThrust();
 
 private:
-    
+        
+    CONTROL fire_arms;
     
 // ##############################
 // ##############################
@@ -89,11 +92,13 @@ private:
 
 private slots:
     void Resistance();
-
+    void keyPressEvent(QKeyEvent *event);
+    
 signals:
     void player_x_changed();
     void x_left();
     void x_right();
     void player_y_changed();
+    void Bullet_Destroy();
 
 };

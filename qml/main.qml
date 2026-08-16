@@ -46,6 +46,13 @@ ApplicationWindow {
             event.accepted = true
         }
 
+        Repeater{
+            delegat:Bullet{
+                x : playerRectangle.x + (playerRectangle.width/2)
+                y : 
+            }
+        }        
+
         
     }
 }

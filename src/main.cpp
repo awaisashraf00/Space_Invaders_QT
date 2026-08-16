@@ -1,5 +1,5 @@
 #include "player.h"
-#include "bullets.h"
+#include "control.h"
 #include <cstdlib>
 #include <QQmlContext>
 #include <QGuiApplication>
@@ -24,10 +24,6 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
-    
-    BULLET *bullets = (BULLET*)malloc(sizeof(BULLET)); 
-
-    engine.rootContext()->setContextProperty("ammo", &bullets);
     
     qmlRegisterType<PLAYER>("PLayerControls",1,0,"PLAYER");
     engine.loadFromModule("Qt_Game", "Main");

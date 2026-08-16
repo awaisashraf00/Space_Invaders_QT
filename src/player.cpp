@@ -4,7 +4,8 @@ PLAYER::PLAYER(QObject *parent)
     : QObject(parent)
 {
     QObject::connect(&timing,&QTimer::timeout,this,&PLAYER::Resistance);
-    // QObject::connect(this,&PLAYER::player_x_changed,this,&PLAYER::moveRight);
+    QObject::connect(&timing,&QTimer::timeout,this,&PLAYER::keyPressEvent);
+    QObject::connect(this,&PLAYER::Bullet_Destroy,&fire_arms,&CONTROL::bullet_destroyed);
     timing.start(fps);
 }
 // ###########################################
@@ -52,6 +53,18 @@ void PLAYER::initializePosition(double x, double y)
     set_player_y_pos(y);
 
 }
+// ###########################################
+// ###########################################
+
+void PLAYER::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Space) {
+        qDebug() << "Space pressed";
+        fire_arms.Fire_Bullets(m_player_x_pos,m_player_y_pos);
+    }
+}
+
+
 // ###########################################
 // ###########################################
 

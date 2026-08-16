@@ -2,32 +2,30 @@
 #include<QObject>
 #include<QTimer>
 
-
-class BULLET:QObject
+class BULLET : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(uint16_t length READ bullet_size_x)
-    Q_PROPERTY(uint16_t wideness READ bullet_size_y)
-    Q_PROPERTY(uint16_t velocity READ velocity_of_bullet)
+    Q_PROPERTY(double x READ bullet_x NOTIFY bullet_x_changed)
+    Q_PROPERTY(double y READ bullet_y NOTIFY bullet_y_changed)
+
+
+public:
+    explicit BULLET(QObject *parent = nullptr , double x , double y);
+
+    double bullet_x() const {return m_bullet_x;};
+    double bullet_y() const {return m_bullet_y;};
 
 private:
-
-    uint16_t m_bullet_width;
-    uint16_t m_bullet_height;
-    uint16_t m_bullet_position;
-    uint16_t m_bullet_velocity{-10};
-    void Ascend() const {m_bullet_position + m_bullet_height;};
-    
-public:
     QTimer time;
-    uint16_t bullet_size_x() const {return m_bullet_height;};
-    uint16_t bullet_size_y() const {return m_bullet_width;};
-    uint16_t velocity_of_bullet() const {return m_bullet_width;};
-    
-    explicit BULLET(QObject *parent = nullptr);
+    double m_bullet_x = 0;
+    double m_bullet_y = 0;
+    double m_bullet_velocity = -10;
 
 signals:
+    void bullet_x_changed();
+    void bullet_y_changed();
 
-
+public slots:
+    void Ascend(){m_bullet_y+=m_bullet_velocity;};
 };
