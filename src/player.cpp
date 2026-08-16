@@ -3,9 +3,9 @@
 PLAYER::PLAYER(QObject *parent)
     : QObject(parent)
 {
-    QObject::connect(&timing,&QTimer::timeout,this,&PLAYER::Resistance);
-    QObject::connect(&timing,&QTimer::timeout,this,&PLAYER::keyPressEvent);
-    QObject::connect(this,&PLAYER::Bullet_Destroy,&fire_arms,&CONTROL::bullet_destroyed);
+    QObject::connect(&timing, &QTimer::timeout, this, &PLAYER::Resistance);
+    QObject::connect(&timing, &QTimer::timeout, this, &PLAYER::keyPressEvent);
+    QObject::connect(&fire_arms, &CONTROL::bulletsChanged, this, &PLAYER::bulletsChanged);
     timing.start(fps);
 }
 // ###########################################

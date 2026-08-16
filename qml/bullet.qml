@@ -1,11 +1,16 @@
 import QtQuick
-import QtQuick.Controls
 
-Item{
+Item {
+    required property var modelData
+
+    width: 5
+    height: 15
+
+    x: modelData.bullet_x
+    y: modelData.bullet_y
+
     Rectangle {
-        id: firearm
-        height: ammo.length
-        width: ammo.widness
-        color : "red"
+        anchors.fill: parent
+        color: "red"
     }
 }

@@ -1,20 +1,29 @@
 #pragma once
-#include<QObject>
-#include<QList>
 #include "bullets.h"
 
+
+class BULLET;
 
 class CONTROL : public QObject
 {
     Q_OBJECT
-private:
-    QList<BULLET*> Fired_Rounds;
-    uint16_t t_rounds;
-    void Destroy_Bullets();
+
+    Q_PROPERTY(QQmlListProperty<BULLET> bullets
+               READ bullets
+               NOTIFY bulletsChanged)
+
 public:
     explicit CONTROL(QObject *parent = nullptr);
-public slots:
-    void Fire_Bullets(double player_x , double player_y);
+
+    void Fire_Bullets(double player_x, double player_y);
+    void Destroy_Bullets(uint16_t id);
+
+    QQmlListProperty<BULLET> bullets() const;
+
 signals:
-    void bullet_destroyed();
+    void bulletsChanged();
+
+private:
+    QList<BULLET*> Fired_Rounds;
+    uint16_t t_rounds = 0;
 };

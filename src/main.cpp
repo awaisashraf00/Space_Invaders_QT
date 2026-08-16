@@ -24,6 +24,9 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+    CONTROL fireArms;
+
+    engine.rootContext()->setContextProperty("fireArms",&fireArms);
     
     qmlRegisterType<PLAYER>("PLayerControls",1,0,"PLAYER");
     engine.loadFromModule("Qt_Game", "Main");

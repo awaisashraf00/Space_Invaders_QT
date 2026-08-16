@@ -1,24 +1,34 @@
-#include "control.h"
+#include <control.h>
 
-void CONTROL::Fire_Bullets(double player_x , double player_y)
+void CONTROL::Fire_Bullets(double player_x, double player_y)
 {
-    BULLET *round = (BULLET*)malloc(sizeof(BULLET)); 
-    round->m_bullet_x = x;
-    round->m_bullet_y = y;
+    auto *round = new BULLET(this, player_x, player_y, t_rounds);
+    QObject::connect(round, &BULLET::Destruct_Bullet, this, &CONTROL::Destroy_Bullets);
     Fired_Rounds.append(round);
-    engine.rootContext()->setContextProperty("ammo", Fired_Rounds[round]);    
-    t_round++;
+    t_rounds++;
+    emit bulletsChanged();
 }
 
-void CONTROL::Destroy_Bullets()
+void CONTROL::Destroy_Bullets(uint16_t id)
 {
-    
-    BULLET *b = Fire_Bullets.takeAt(0);
-    b->deleteLater();
-    t_round--;
+    for (int i = 0; i < Fired_Rounds.size(); ++i)
+    {
+        if (Fired_Rounds[i]->bullet_id == id)
+        {
+            BULLET *b = Fired_Rounds.takeAt(i);
+            b->deleteLater();
+            emit bulletsChanged();
+            return;
+        }
+    }
 }
 
-explicit CONTROL::CONTROL(QObject *parent)
+QQmlListProperty<BULLET> CONTROL::bullets() const
 {
-    QObject::connect()
+    return QQmlListProperty<BULLET>(const_cast<CONTROL*>(this), const_cast<QList<BULLET*>*>(&Fired_Rounds));
+}
+
+CONTROL::CONTROL(QObject *parent)
+    : QObject(parent)
+{
 }

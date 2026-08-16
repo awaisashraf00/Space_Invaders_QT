@@ -18,12 +18,9 @@ ApplicationWindow {
         anchors.fill: parent
         focus: true
 
-        Component.onCompleted: {
-            forceActiveFocus()
-        }
-
         Rectangle {
             id: playerRectangle
+
             width: battleship.player_width
             height: battleship.player_height
 
@@ -31,6 +28,16 @@ ApplicationWindow {
             y: battleship.player_y_pos
         }
 
+        Repeater {
+            model: battleship.bullets
+
+            delegate: Bullet {
+                required property var modelData
+
+                bulletObject: modelData
+            }
+        }
+        
         Keys.onRightPressed: function(event) {
             battleship.moveRight()
             event.accepted = true
@@ -46,13 +53,13 @@ ApplicationWindow {
             event.accepted = true
         }
 
-        Repeater{
-            delegat:Bullet{
-                x : playerRectangle.x + (playerRectangle.width/2)
-                y : 
-            }
-        }        
+        Keys.onSpacePressed: function(event) {
+            battleship.fireBullet()
+            event.accepted = true
+        }
 
-        
+        Component.onCompleted: {
+            forceActiveFocus()
+        }
     }
 }

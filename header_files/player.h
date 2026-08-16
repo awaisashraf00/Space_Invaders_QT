@@ -1,9 +1,7 @@
 #pragma once
 
-#include <QObject>
+#include <bullets.h>
 #include <QKeyEvent>
-#include <QDebug>
-#include <QTimer>
 #include <control.h>
 #include <cstdint>
 
@@ -16,6 +14,8 @@ class PLAYER : public QObject
     
     Q_PROPERTY(uint16_t player_width READ player_width)
     Q_PROPERTY(uint16_t player_height READ player_height)
+    
+    Q_PROPERTY(QQmlListProperty<BULLET> bullets READ bullets NOTIFY bulletsChanged)
     
     Q_PROPERTY(double player_x_pos
         READ player_x_pos
@@ -47,10 +47,11 @@ public:
     Q_INVOKABLE void moveLeft();
     Q_INVOKABLE void applyThrust();
 
+    QQmlListProperty<BULLET> bullets() const { return fire_arms.bullets(); }
+
 private:
-        
     CONTROL fire_arms;
-    
+
 // ##############################
 // ##############################
 
@@ -95,6 +96,7 @@ private slots:
     void keyPressEvent(QKeyEvent *event);
     
 signals:
+    void bulletsChanged();
     void player_x_changed();
     void x_left();
     void x_right();
