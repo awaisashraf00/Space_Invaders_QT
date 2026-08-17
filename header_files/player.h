@@ -12,7 +12,8 @@ class PLAYER : public QObject
     Q_PROPERTY(uint16_t window_width READ window_width)
     Q_PROPERTY(uint16_t window_height READ window_height)
     
-    Q_PROPERTY(uint16_t player_width READ player_width)
+    Q_PROPERTY(uint16_t player_width
+        READ player_width)
     Q_PROPERTY(uint16_t player_height READ player_height)
     
     Q_PROPERTY(QQmlListProperty<BULLET> bullets READ bullets NOTIFY bulletsChanged)
@@ -46,6 +47,7 @@ public:
     Q_INVOKABLE void moveRight();
     Q_INVOKABLE void moveLeft();
     Q_INVOKABLE void applyThrust();
+    Q_INVOKABLE void fireBullet();
 
     QQmlListProperty<BULLET> bullets() const { return fire_arms.bullets(); }
 
@@ -93,7 +95,6 @@ private:
 
 private slots:
     void Resistance();
-    void keyPressEvent(QKeyEvent *event);
     
 signals:
     void bulletsChanged();

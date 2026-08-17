@@ -32,8 +32,12 @@ signals:
 public slots:
     void Ascend()
     {
-        m_bullet_y += m_bullet_velocity;
-        emit bullet_y_changed();
+        if(m_bullet_y > 0){
+            m_bullet_y += m_bullet_velocity;
+            emit bullet_y_changed();
+        }else{
+            emit Destruct_Bullet(bullet_id);
+        }
     }
 
 private:

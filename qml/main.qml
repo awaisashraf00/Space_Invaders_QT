@@ -33,7 +33,6 @@ ApplicationWindow {
 
             delegate: Bullet {
                 required property var modelData
-
                 bulletObject: modelData
             }
         }
