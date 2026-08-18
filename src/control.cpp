@@ -10,6 +10,10 @@ void CONTROL::Fire_Bullets(double player_x, double player_y)
     emit bulletsChanged();
 }
 
+void CONTROL::Spawn_Enemies(double e_x, double e_y)
+{
+}
+
 void CONTROL::Destroy_Bullets(uint16_t id)
 {
     for (int i = 0; i < Fired_Rounds.size(); ++i)
@@ -34,9 +38,6 @@ QQmlListProperty<ENEMY> CONTROL::enemies() const
     return QQmlListProperty<ENEMY>(const_cast<CONTROL*>(this), const_cast<QList<ENEMY*>*>(&Enemies_alive));
 }
 
-void CONTROL::enemies_updated()
-{
-}
 
 CONTROL::CONTROL(QObject *parent)
     : QObject(parent)
