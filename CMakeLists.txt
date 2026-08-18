@@ -24,6 +24,8 @@ add_executable(Qt_Game
     src/player.cpp
     src/bullets.cpp
     src/control.cpp
+    src/enemy.cpp
+    header_files/enemy.h
     header_files/player.h
     header_files/control.h
     header_files/bullets.h
