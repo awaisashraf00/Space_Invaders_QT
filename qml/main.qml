@@ -37,14 +37,14 @@ ApplicationWindow {
             }
         }
         
-        // Repeater {
-        //     model: battleship.enemies
+        Repeater {
+            model: battleship.enemie
 
-        //     delegate: Enemy {
-        //         required property var modelData
-        //         enemyObject: modelData
-        //     }
-        // }
+            delegate: Enemy {
+                required property var modelData
+                enemyObject: modelData
+            }
+        }
         
         Keys.onRightPressed: function(event) {
             battleship.moveRight()

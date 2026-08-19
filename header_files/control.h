@@ -18,11 +18,14 @@ public:
     explicit CONTROL(QObject *parent = nullptr);
 
     void Fire_Bullets(double player_x, double player_y);
-    void Spawn_Enemies(double e_x, double e_y);
+    void Spawn_Enemies();
+    
     void Destroy_Bullets(uint16_t id);
+    void Destroy_Enemie(uint16_t id);
 
     QQmlListProperty<BULLET> bullets() const;
     QQmlListProperty<ENEMY> enemies() const;
+    void Check_for_Impact();
 
 signals:
     void bulletsChanged();
@@ -31,4 +34,5 @@ private:
     QList<BULLET*> Fired_Rounds;
     QList<ENEMY*> Enemies_alive;
     uint16_t t_rounds = 0;
+    uint16_t t_enemies = 0;
 };

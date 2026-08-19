@@ -19,14 +19,11 @@ int main(int argc, char *argv[])
     // auto Child = user->findChildren<ActionTaker*>("Awais");
     // engine.rootContext()->setContextProperty("actionTaker", &player1);
     // if(!Child.isEmpty()) qInfo()<<"Child Found " <<" : ";
-    
     // qmlRegisterType<BULLET>("BulletControls",1,0,"BULLET");
+    
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
-    CONTROL fireArms;
-
-    engine.rootContext()->setContextProperty("fireArms",&fireArms);
     
     qmlRegisterType<PLAYER>("PLayerControls",1,0,"PLAYER");
     engine.loadFromModule("Qt_Game", "Main");

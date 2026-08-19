@@ -4,9 +4,13 @@ PLAYER::PLAYER(QObject *parent)
     : QObject(parent)
 {
     QObject::connect(&timing, &QTimer::timeout, this, &PLAYER::Resistance);
-    // QObject::connect(&timing, &QTimer::timeout, this, [](){});
-    QObject::connect(&fire_arms, &CONTROL::bulletsChanged, this, &PLAYER::bulletsChanged);
+    QObject::connect(&timing,&QTimer::timeout,&fire_arms,&CONTROL::Check_for_Impact);
+    QObject::connect(&e_timer,&QTimer::timeout,&fire_arms,&CONTROL::Spawn_Enemies);
     timing.start(fps);
+    e_timer.start(3000);
+    QObject::connect(&fire_arms, &CONTROL::bulletsChanged, this, &PLAYER::bulletsChanged);
+    QObject::connect(&fire_arms,&CONTROL::enemies_updated,this,&PLAYER::enemies_updated);
+    // QObject::connect(&timing, &QTimer::timeout, this, [](){});
 }
 // ###########################################
 // ###########################################
@@ -45,14 +49,7 @@ void PLAYER::set_player_y_pos(double new_y)
     }
 }
 
-// ###########################################
-// ###########################################
-void PLAYER::initializePosition(double x, double y)
-{
-    set_player_x_pos(x);
-    set_player_y_pos(y);
 
-}
 // ###########################################
 // ###########################################
 
@@ -67,11 +64,13 @@ void PLAYER::fireBullet()
 
 void PLAYER::moveRight()
 {    
+    m_velocity_left_x = 0;
     m_velocity_right_x = 20;
 }
 
 void PLAYER::moveLeft()
 {
+    m_velocity_right_x = 0;
     m_velocity_left_x = -20;
 }
 

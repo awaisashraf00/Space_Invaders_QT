@@ -49,6 +49,7 @@ qt_add_qml_module(Qt_Game
     QML_FILES
         qml/Main.qml
         qml/Bullet.qml
+        qml/Enemy.qml
 )
 
 target_link_libraries(Qt_Game PRIVATE

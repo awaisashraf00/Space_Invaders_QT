@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bullets.h>
+#include <enemy.h>
 #include <QKeyEvent>
 #include <control.h>
 #include <cstdint>
@@ -17,6 +18,7 @@ class PLAYER : public QObject
     Q_PROPERTY(uint16_t player_height READ player_height)
     
     Q_PROPERTY(QQmlListProperty<BULLET> bullets READ bullets NOTIFY bulletsChanged)
+    Q_PROPERTY(QQmlListProperty<ENEMY> enemie READ enemie NOTIFY enemies_updated)
     
     Q_PROPERTY(double player_x_pos
         READ player_x_pos
@@ -43,13 +45,13 @@ public:
     uint16_t player_width() const {return m_player_width;};
     uint16_t player_height() const {return m_player_height;};
     
-    Q_INVOKABLE void initializePosition(double x, double y);
     Q_INVOKABLE void moveRight();
     Q_INVOKABLE void moveLeft();
     Q_INVOKABLE void applyThrust();
     Q_INVOKABLE void fireBullet();
 
     QQmlListProperty<BULLET> bullets() const { return fire_arms.bullets(); }
+    QQmlListProperty<ENEMY> enemie() const { return fire_arms.enemies(); }
 
 private:
     CONTROL fire_arms;
@@ -63,6 +65,7 @@ private:
 // ##############################
 
     QTimer timing;
+    QTimer e_timer;
     double fps {16.67};
     double gravity {0.5};
     double m_velocity_y {0.0};
@@ -98,9 +101,8 @@ private slots:
     
 signals:
     void bulletsChanged();
+    void enemies_updated();
     void player_x_changed();
-    void x_left();
-    void x_right();
     void player_y_changed();
     void Bullet_Destroy();
 
