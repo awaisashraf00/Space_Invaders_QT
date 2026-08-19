@@ -36,6 +36,15 @@ ApplicationWindow {
                 bulletObject: modelData
             }
         }
+
+        Repeater {
+            model: battleship.enemie_bullets
+
+            delegate: Bullet {
+                required property var modelData
+                bulletObject: modelData
+            }
+        }
         
         Repeater {
             model: battleship.enemie

@@ -16,7 +16,7 @@ class BULLET : public QObject
     Q_PROPERTY(double y READ bullet_y NOTIFY bullet_y_changed)
 
 public:
-    explicit BULLET(QObject *parent = nullptr, double x = 0.0, double y = 0.0, uint16_t id = 0);
+    explicit BULLET(QObject *parent = nullptr, double x = 0.0, double y = 0.0, uint16_t id = 0 , bool player_bullet = true);
 
     double bullet_x() const { return m_bullet_x; }
     double bullet_y() const { return m_bullet_y; }
@@ -31,15 +31,8 @@ signals:
     void Destruct_Bullet(uint16_t id);
 
 public slots:
-    void Ascend()
-    {
-        if(m_bullet_y > 0){
-            m_bullet_y += m_bullet_velocity;
-            emit bullet_y_changed();
-        }else{
-            emit Destruct_Bullet(bullet_id);
-        }
-    }
+    void Ascend();
+    void Descend();
 
 private:
     QTimer time;

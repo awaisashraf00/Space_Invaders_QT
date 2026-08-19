@@ -19,6 +19,7 @@ class PLAYER : public QObject
     
     Q_PROPERTY(QQmlListProperty<BULLET> bullets READ bullets NOTIFY bulletsChanged)
     Q_PROPERTY(QQmlListProperty<ENEMY> enemie READ enemie NOTIFY enemies_updated)
+    Q_PROPERTY(QQmlListProperty<BULLET> enemie_bullets READ enemie_bullets NOTIFY bulletsChanged)
     
     Q_PROPERTY(double player_x_pos
         READ player_x_pos
@@ -52,6 +53,7 @@ public:
 
     QQmlListProperty<BULLET> bullets() const { return fire_arms.bullets(); }
     QQmlListProperty<ENEMY> enemie() const { return fire_arms.enemies(); }
+    QQmlListProperty<BULLET> enemie_bullets() const { return fire_arms.enemie_bullets(); }
 
 private:
     CONTROL fire_arms;
@@ -66,6 +68,7 @@ private:
 
     QTimer timing;
     QTimer e_timer;
+    QTimer enemy_bullet_timer;
     double fps {16.67};
     double gravity {0.5};
     double m_velocity_y {0.0};

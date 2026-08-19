@@ -14,6 +14,7 @@ void CONTROL::Fire_Bullets(double player_x, double player_y)
     t_rounds++;
     emit bulletsChanged();
 }
+
 void CONTROL::Check_for_Impact()
 {
     struct E_pos
@@ -75,6 +76,25 @@ void CONTROL::Spawn_Enemies()
     emit enemies_updated();
 }
 
+void CONTROL::Spawn_Random_Bullets()
+{
+    for(auto *e:Enemies_alive){
+        uint8_t guess = std::ceil(rand()%4);
+        
+        auto enemie_x = (e->opp_x + e->enemie_size_x/2);
+        auto enemie_y = (e->opp_y + e->enemie_size_y);
+
+        if(guess == 3){
+            auto *round = new BULLET(this, enemie_x, enemie_y, t_rounds, false);
+            QObject::connect(round, &BULLET::Destruct_Bullet, this, &CONTROL::Destroy_Bullets);
+
+            Enemies_Fired_Rounds.append(round);
+            t_rounds++;
+            emit bulletsChanged();
+        }
+    }
+}
+
 void CONTROL::Destroy_Enemie(uint16_t id)
 {
     // qDebug()<<"called destroy" ;
@@ -104,11 +124,27 @@ void CONTROL::Destroy_Bullets(uint16_t id)
             return;
         }
     }
+
+    for (int i = 0; i < Enemies_Fired_Rounds.size(); ++i)
+    {
+        if (Enemies_Fired_Rounds[i]->bullet_id == id)
+        {
+            BULLET *b = Enemies_Fired_Rounds.takeAt(i);
+            emit bulletsChanged();
+            b->deleteLater();
+            return;
+        }
+    }
 }
 
 QQmlListProperty<BULLET> CONTROL::bullets() const
 {
     return QQmlListProperty<BULLET>(const_cast<CONTROL*>(this), const_cast<QList<BULLET*>*>(&Fired_Rounds));
+}
+
+QQmlListProperty<BULLET> CONTROL::enemie_bullets() const
+{
+    return QQmlListProperty<BULLET>(const_cast<CONTROL*>(this), const_cast<QList<BULLET*>*>(&Enemies_Fired_Rounds));
 }
 
 QQmlListProperty<ENEMY> CONTROL::enemies() const
