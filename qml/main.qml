@@ -8,6 +8,15 @@ ApplicationWindow {
     visible: true
     title: qsTr("Space invaders")
 
+    background: Rectangle {
+        anchors.fill: parent
+
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "darkblue" }
+            GradientStop { position: 1.0; color: "black" }
+        }
+    }
+
     PLAYER {
         id: battleship
     }
@@ -15,17 +24,41 @@ ApplicationWindow {
     Item {
         id: gameArea
 
-        anchors.fill: parent
         focus: true
 
         Rectangle {
             id: playerRectangle
+            color: "transparent"
 
             width: battleship.player_width
             height: battleship.player_height
 
             x: battleship.player_x_pos
             y: battleship.player_y_pos
+
+            Image {
+                id: playerImage
+
+                source: battleship.skin_patth
+
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+            }
+
+            AnimatedImage {
+                id: thrust
+
+                source: "qrc:/player/pixels/thruster.gif"
+
+                width: 30
+                height: 30
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: playerImage.bottom
+
+                playing: true
+                // loops: Animation.Infinite
+            }
         }
 
         Repeater {
@@ -45,27 +78,28 @@ ApplicationWindow {
                 bulletObject: modelData
             }
         }
-        
+
         Repeater {
             model: battleship.enemie
-
             delegate: Enemy {
                 required property var modelData
                 enemyObject: modelData
             }
         }
-        
+
         Keys.onRightPressed: function(event) {
             battleship.moveRight()
             event.accepted = true
         }
 
         Keys.onLeftPressed: function(event) {
+            
             battleship.moveLeft()
             event.accepted = true
         }
 
         Keys.onUpPressed: function(event) {
+            
             battleship.applyThrust()
             event.accepted = true
         }
@@ -77,6 +111,7 @@ ApplicationWindow {
 
         Component.onCompleted: {
             forceActiveFocus()
+            thrust.playing = true
         }
     }
 }

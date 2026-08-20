@@ -1,7 +1,8 @@
 #include "enemy.h"
 
-ENEMY::ENEMY(QObject *parent , uint8_t id) : QObject(parent) , enemie_id(id)
+ENEMY::ENEMY(QObject *parent , uint8_t id , uint8_t n_skin) : QObject(parent) , enemie_id(id)
 {
+
     opp_x = (rand() % 800 - enemie_size_x) + enemie_size_x;
     opp_y = (rand() % 350 - enemie_size_y) + enemie_size_y;
     emit x_changed();
@@ -10,7 +11,7 @@ ENEMY::ENEMY(QObject *parent , uint8_t id) : QObject(parent) , enemie_id(id)
     time.start(1000);
     QObject::connect(&positiontime,&QTimer::timeout,this,&ENEMY::updatePosition);
     positiontime.start(16);
-    qDebug()<<id;
+    skin_path = skin_map[n_skin];
 }
 void ENEMY::updatePosition()
 {

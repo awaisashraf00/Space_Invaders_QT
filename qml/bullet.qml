@@ -1,11 +1,18 @@
 import QtQuick
 
 Rectangle {
+    id:bullet
     property var bulletObject
-
-    width: 5
-    height: 10
+    color: "transparent"
+    width: 15
+    height: 15
 
     x: bulletObject.x
     y: bulletObject.y
+    
+    Image {
+        anchors.fill: parent
+        source: "qrc:/bullet/pixels/bullet.png"
+        fillMode: Image.PreserveAspectFit
+    }
 }

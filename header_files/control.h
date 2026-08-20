@@ -15,11 +15,12 @@ public:
     
     void Destroy_Bullets(uint16_t id);
     void Destroy_Enemie(uint16_t id);
+    
+    void Check_for_Impact(uint16_t player_x , uint16_t player_y);
 
     QQmlListProperty<BULLET> bullets() const;
     QQmlListProperty<ENEMY> enemies() const;
     QQmlListProperty<BULLET> enemie_bullets() const;
-    void Check_for_Impact();
 
 signals:
     void bulletsChanged();

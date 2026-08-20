@@ -13,9 +13,10 @@ class PLAYER : public QObject
     Q_PROPERTY(uint16_t window_width READ window_width)
     Q_PROPERTY(uint16_t window_height READ window_height)
     
-    Q_PROPERTY(uint16_t player_width
-        READ player_width)
-    Q_PROPERTY(uint16_t player_height READ player_height)
+    Q_PROPERTY(uint16_t player_width READ player_width CONSTANT)
+    Q_PROPERTY(uint16_t player_height READ player_height CONSTANT)
+    
+    Q_PROPERTY(QString skin_patth READ skin_patth CONSTANT)
     
     Q_PROPERTY(QQmlListProperty<BULLET> bullets READ bullets NOTIFY bulletsChanged)
     Q_PROPERTY(QQmlListProperty<ENEMY> enemie READ enemie NOTIFY enemies_updated)
@@ -46,6 +47,9 @@ public:
     uint16_t player_width() const {return m_player_width;};
     uint16_t player_height() const {return m_player_height;};
     
+    QString skin_patth(){return(m_skin_patth);}; 
+
+    
     Q_INVOKABLE void moveRight();
     Q_INVOKABLE void moveLeft();
     Q_INVOKABLE void applyThrust();
@@ -69,6 +73,8 @@ private:
     QTimer timing;
     QTimer e_timer;
     QTimer enemy_bullet_timer;
+// ##############################
+// ##############################
     double fps {16.67};
     double gravity {0.5};
     double m_velocity_y {0.0};
@@ -89,6 +95,9 @@ private:
 
     uint16_t m_player_width = 80;
     uint16_t m_player_height = 80;
+    QString m_skin_patth = "qrc:/player/pixels/rocket.png"; 
+    // QString m_skin_patth = "qrc:/enemy/enemy1.png"; 
+
 // ##############################
 // ##############################
 

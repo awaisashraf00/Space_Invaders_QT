@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.16)
 
 project(Qt_Game VERSION 1.0 LANGUAGES CXX)
 
-set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,13 +19,13 @@ find_package(Qt6 REQUIRED COMPONENTS
 
 qt_standard_project_setup(REQUIRES 6.8)
 
-
 add_executable(Qt_Game
     src/main.cpp
     src/player.cpp
     src/bullets.cpp
     src/control.cpp
     src/enemy.cpp
+    resources/assets.qrc
     header_files/enemy.h
     header_files/player.h
     header_files/control.h
@@ -35,7 +36,6 @@ target_include_directories(Qt_Game PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/header_files
 )
 
-# Put executable in build/bin/
 set_target_properties(Qt_Game PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
@@ -50,6 +50,7 @@ qt_add_qml_module(Qt_Game
         qml/Main.qml
         qml/Bullet.qml
         qml/Enemy.qml
+
 )
 
 target_link_libraries(Qt_Game PRIVATE

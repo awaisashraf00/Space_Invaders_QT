@@ -1,6 +1,6 @@
 import QtQuick
 
-Rectangle {
+Item {
     id: enemy
 
     required property var enemyObject
@@ -8,9 +8,12 @@ Rectangle {
     width: 40
     height: 40
 
-    color: "red"
-
     x: enemyObject.x
     y: enemyObject.y
 
+    Image {
+        anchors.fill: parent
+        source: enemy.enemyObject.skin_path
+        fillMode: Image.PreserveAspectFit
+    }
 }

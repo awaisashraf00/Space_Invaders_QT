@@ -4,7 +4,7 @@ PLAYER::PLAYER(QObject *parent)
     : QObject(parent)
 {
     QObject::connect(&timing, &QTimer::timeout, this, &PLAYER::Resistance);
-    QObject::connect(&timing,&QTimer::timeout,&fire_arms,&CONTROL::Check_for_Impact);
+    QObject::connect(&timing,&QTimer::timeout,&fire_arms,[&](){fire_arms.Check_for_Impact(m_player_x_pos,m_player_y_pos);});
     QObject::connect(&e_timer,&QTimer::timeout,&fire_arms,&CONTROL::Spawn_Enemies);
     QObject::connect(&enemy_bullet_timer, &QTimer::timeout, &fire_arms, &CONTROL::Spawn_Random_Bullets);
     timing.start(fps);

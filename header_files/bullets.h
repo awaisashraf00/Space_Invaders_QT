@@ -2,6 +2,8 @@
 
 #include <cstdlib> 
 #include <QObject>
+#include <QHash>
+#include <QString>
 #include <QTimer>
 #include <QDebug>
 #include <QList>

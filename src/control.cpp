@@ -5,6 +5,9 @@ CONTROL::CONTROL(QObject *parent)
     : QObject(parent){}
 
 
+// ###########################################
+// ###########################################
+
 void CONTROL::Fire_Bullets(double player_x, double player_y)
 {
     auto *round = new BULLET(this, player_x, player_y, t_rounds);
@@ -15,7 +18,12 @@ void CONTROL::Fire_Bullets(double player_x, double player_y)
     emit bulletsChanged();
 }
 
-void CONTROL::Check_for_Impact()
+
+// ###########################################
+// ###########################################
+
+
+void CONTROL::Check_for_Impact(uint16_t player_x , uint16_t player_y)
 {
     struct E_pos
     {
@@ -25,6 +33,7 @@ void CONTROL::Check_for_Impact()
         double e_y_end;
     };
 
+    QList<uint16_t> enemie_bullets_ToDestroy;
     QList<uint16_t> bulletsToDestroy;
     QList<uint16_t> enemiesToDestroy;
 
@@ -46,13 +55,33 @@ void CONTROL::Check_for_Impact()
             {
                 bulletsToDestroy.append(shot->bullet_id);
                 enemiesToDestroy.append(enemy->enemie_id);
-
+                
                 break;
             }
         }
     }
+    
+    
+    for (auto *enemie_bullets : Enemies_Fired_Rounds)
+    {
+        
+        if (enemie_bullets->m_bullet_x >= player_x &&
+            enemie_bullets->m_bullet_x <= player_x+80 &&
+            enemie_bullets->m_bullet_y >= player_y &&
+            enemie_bullets->m_bullet_y <= player_y+80)
+        {
+            enemie_bullets_ToDestroy.append(enemie_bullets->bullet_id);
+            break;
+        }
+    }
+
 
     for (uint16_t id : bulletsToDestroy)
+    {
+        Destroy_Bullets(id);
+    }
+    
+    for (uint16_t id : enemie_bullets_ToDestroy)
     {
         Destroy_Bullets(id);
     }
@@ -63,18 +92,27 @@ void CONTROL::Check_for_Impact()
     }
 }
 
+
+// ###########################################
+// ###########################################
+
+
 void CONTROL::Spawn_Enemies()
 {
     if(t_enemies>10){
         return;
     }
-    qDebug()<<"Enemie spawner called";  
-    auto *enemy = new ENEMY(this,t_enemies);
+    int enemy_skin = (rand()%5)+1;
+    auto *enemy = new ENEMY(this,t_enemies,enemy_skin);
     QObject::connect(enemy, &ENEMY::Destruct_Enemie, this, &CONTROL::Destroy_Enemie);
     Enemies_alive.append(enemy);
     t_enemies++;
     emit enemies_updated();
 }
+
+// ###########################################
+// ###########################################
+
 
 void CONTROL::Spawn_Random_Bullets()
 {
@@ -95,6 +133,9 @@ void CONTROL::Spawn_Random_Bullets()
     }
 }
 
+// ###########################################
+// ###########################################
+
 void CONTROL::Destroy_Enemie(uint16_t id)
 {
     // qDebug()<<"called destroy" ;
@@ -111,6 +152,11 @@ void CONTROL::Destroy_Enemie(uint16_t id)
     }
 
 }
+
+
+// ###########################################
+// ###########################################
+
 void CONTROL::Destroy_Bullets(uint16_t id)
 {
     // qDebug()<<"called destroy" ;
@@ -137,16 +183,23 @@ void CONTROL::Destroy_Bullets(uint16_t id)
     }
 }
 
+// ###########################################
+// ###########################################
+
 QQmlListProperty<BULLET> CONTROL::bullets() const
 {
     return QQmlListProperty<BULLET>(const_cast<CONTROL*>(this), const_cast<QList<BULLET*>*>(&Fired_Rounds));
 }
 
+// ###########################################
+// ###########################################
 QQmlListProperty<BULLET> CONTROL::enemie_bullets() const
 {
     return QQmlListProperty<BULLET>(const_cast<CONTROL*>(this), const_cast<QList<BULLET*>*>(&Enemies_Fired_Rounds));
 }
 
+// ###########################################
+// ###########################################
 QQmlListProperty<ENEMY> CONTROL::enemies() const
 {
     return QQmlListProperty<ENEMY>(const_cast<CONTROL*>(this), const_cast<QList<ENEMY*>*>(&Enemies_alive));
