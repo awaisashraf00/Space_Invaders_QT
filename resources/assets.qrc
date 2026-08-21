@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/enemy">
+        <file alias="enemy1.png">pixels/enemy1.png</file>
+        <file alias="enemy2.png">pixels/enemy2.png</file>
+        <file alias="enemy3.png">pixels/enemy3.png</file>
+        <file alias="enemy4.png">pixels/enemy4.png</file>
+        <file alias="enemy5.png">pixels/enemy5.png</file>
+    </qresource>
+    <qresource prefix="/player">
+        <file>pixels/rocket.png</file>
+        <file>pixels/thruster.gif</file>
+    </qresource>
+    <qresource prefix="/bullet">
+        <file>pixels/bullet.png</file>
+    </qresource>
+    <qresource prefix="/fonts"/>
+</RCC>
