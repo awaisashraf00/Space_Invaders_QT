@@ -12,7 +12,7 @@ PLAYER::PLAYER(QObject *parent)
     enemy_bullet_timer.start(1000);
     QObject::connect(&fire_arms, &CONTROL::bulletsChanged, this, &PLAYER::bulletsChanged);
     QObject::connect(&fire_arms,&CONTROL::enemies_updated,this,&PLAYER::enemies_updated);
-    // QObject::connect(&timing, &QTimer::timeout, this, [](){});
+    // QObject::connect(&timing, &QTimer::timeout, th is, [](){});
 }
 // ###########################################
 // ###########################################

@@ -13,7 +13,7 @@ BULLET::BULLET(QObject *parent, double x, double y, uint16_t id , bool player_bu
     }
     time.start(16);
 }
-
+ 
 void BULLET::Ascend()
 {
     if(m_bullet_y > 0){
